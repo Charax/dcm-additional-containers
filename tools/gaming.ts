@@ -24,4 +24,23 @@ export const gaming: DockerTool[] = [
       - CONTAINER_PRESERVE_CONFIG=True
     restart: \${RESTART_POLICY}`,
   },
+  {
+    id: "PlanarAlly",
+    name: "PlanarAlly Virtual Tabletop",
+    description: "Virtual Tabletop for playing TTRPGs",
+    category: "Gaming",
+    tags: ["Gaming", "VTT", "PlanarAlly"],
+    githubUrl: "https://github.com/kruptein/planarally",
+    icon: "https://www.planarally.io/logos/pa-logo-small.svg",
+    composeContent: `services:
+    planarally:
+        container_name: \${CONTAINER_PREFIX}planarally
+        image: kruptein/planarally:latest
+        restart: \${RESTART_POLICY}`
+        volumes:
+            - "\${DATA_PATH}/planarally/data/:/planarally/data/"
+            - "\${DATA_PATH}/planarally/assets:/planarally/static/assets/"
+        ports:
+          -  8001:8000,
+  },
 ]
