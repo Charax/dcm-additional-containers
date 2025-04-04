@@ -82,6 +82,7 @@ const formSchema = z.object({
   category: z.string().min(1, "Category is required"),
   tags: z.array(z.string()).min(1, "At least one tag is required"),
   githubUrl: z.string().url("Must be a valid URL").or(z.literal("")),
+  icon: z.string().url("Must be a valid URL").or(z.literal("")),
   containerData: composeContentSchema,
 })
 
@@ -103,6 +104,7 @@ export function ContainerSubmissionForm() {
       category: "Media",
       tags: ["TV", "PVR", "Monitoring"],
       githubUrl: "https://github.com/sonarr",
+      icon: "",
       containerData: `services:
   sonarr:
     container_name: \${CONTAINER_PREFIX}sonarr
@@ -133,8 +135,8 @@ export function ContainerSubmissionForm() {
 
   function onSubmit(values: FormValues) {
     // Redirect directly to the new form-based issue template
-    const repoUrl = "https://github.com/ajnart/docker-compose-maker"
-    const issueUrl = `${repoUrl}/issues/new?template=container-submission.yml&title=container: ${encodeURIComponent(values.name)}&id=${encodeURIComponent(values.id)}&name=${encodeURIComponent(values.name)}&description=${encodeURIComponent(values.description)}&category=${encodeURIComponent(values.category)}&tags=${encodeURIComponent(values.tags.join(", "))}&githubUrl=${encodeURIComponent(values.githubUrl || "")}&containerData=${encodeURIComponent(values.containerData)}`
+    const repoUrl = "https://github.com/ajnart/dcm"
+    const issueUrl = `${repoUrl}/issues/new?template=container-submission.yml&title=container: ${encodeURIComponent(values.name)}&id=${encodeURIComponent(values.id)}&name=${encodeURIComponent(values.name)}&description=${encodeURIComponent(values.description)}&category=${encodeURIComponent(values.category)}&tags=${encodeURIComponent(values.tags.join(", "))}&githubUrl=${encodeURIComponent(values.githubUrl || "")}&icon=${encodeURIComponent(values.icon || "")}&containerData=${encodeURIComponent(values.containerData)}`
 
     // Open the GitHub issue form in a new tab
     window.open(issueUrl, "_blank")
@@ -144,7 +146,7 @@ export function ContainerSubmissionForm() {
   // Function to open GitHub issue template directly
   const openGitHubIssue = () => {
     const issueUrl =
-      "https://github.com/ajnart/docker-compose-maker/issues/new?template=container-submission.yml"
+      "https://github.com/ajnart/dcm/issues/new?template=container-submission.yml"
     window.open(issueUrl, "_blank")
   }
 
@@ -271,6 +273,35 @@ export function ContainerSubmissionForm() {
                 )}
               />
             </div>
+
+            <FormField
+              control={form.control}
+              name="icon"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Icon URL (Optional)</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/example.svg"
+                      {...field}
+                    />
+                  </FormControl>
+                  <p className="text-muted-foreground text-xs">
+                    We recommend using icons from{" "}
+                    <a 
+                      href="https://github.com/homarr-labs/dashboard-icons" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="font-medium text-primary underline underline-offset-4"
+                    >
+                      homarr-labs/dashboard-icons
+                    </a>
+                    . Format: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/[name].svg
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}

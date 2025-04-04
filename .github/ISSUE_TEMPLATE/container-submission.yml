@@ -8,7 +8,7 @@ body:
       value: |
         Thanks for taking the time to suggest a new container!
         
-        > You can also contribute directly by adding the container definition to the codebase. See [CONTRIBUTING.md](https://github.com/ajnart/docker-compose-maker/blob/main/CONTRIBUTING.md) for instructions.
+        > You can also contribute directly by adding the container definition to the codebase. See [CONTRIBUTING.md](https://github.com/ajnart/dcm/blob/main/CONTRIBUTING.md) for instructions.
   
   - type: checkboxes
     id: prerequisites
@@ -81,9 +81,16 @@ body:
   - type: input
     id: githubUrl
     attributes:
-      label: GitHub URL (Optional)
+      label: GitHub URL
       description: Link to the GitHub repository for this container
       placeholder: "https://github.com/username/repository"
+  
+  - type: input
+    id: icon
+    attributes:
+      label: Icon URL
+      description: URL to the icon for this container, preferably from dashboard-icons
+      placeholder: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/example.svg"
   
   - type: textarea
     id: containerData

@@ -504,4 +504,73 @@ export const media: DockerTool[] = [
       - 5000:5000
     restart: \${RESTART_POLICY}`,
   },
+  {
+    id: "pairdrop",
+    name: "PairDrop",
+    description:
+      "File sharing on your local network that works on all platforms.",
+    category: "Media",
+    tags: ["Cloud", "Sharing"],
+    githubUrl: "https://github.com/schlagmichdoch/PairDrop",
+    composeContent: `services:
+  pairdrop:
+    image: lscr.io/linuxserver/pairdrop:latest
+    container_name: \${CONTAINER_PREFIX}pairdrop
+    environment:
+      - PUID=\${PUID}
+      - PGID=\${PGID}
+      - TZ=\${TZ}
+      - WS_SERVER=false
+      - WS_FALLBACK=false
+      - RTC_CONFIG=false
+      - RATE_LIMIT=false
+      - DEBUG_MODE=false
+    ports:
+      - 3000:3000
+    restart: \${RESTART_POLICY}`,
+  },
+  {
+    id: "pinchflat",
+    name: "Pinchflat",
+    description:
+      "A self-hosted app for downloading YouTube content built using yt-dlp.",
+    category: "Media",
+    tags: ["TV", "PVR", "Monitoring"],
+    githubUrl: "https://github.com/kieraneglin/pinchflat",
+    composeContent: `services:
+  pinchflat:
+    image: ghcr.io/kieraneglin/pinchflat:latest
+    container_name: \${CONTAINER_PREFIX}pinchflat
+    environment:
+      - TZ=\${TZ}
+    ports:
+      - "8945:8945"
+    volumes:
+      - \${CONFIG_PATH}/pinchflat:/config
+      - \${DATA_PATH}/downloads:/downloads
+    restart: \${RESTART_POLICY}`,
+  },
+  {
+    id: "netalertx",
+    name: "NetAlertX",
+    description:
+      "Network intruder and presence detector. Scans for devices connected to your network and alerts you if new and unknown devices are found.",
+    category: "Media",
+    tags: ["Monitoring", "Security", "Network"],
+    githubUrl: "https://github.com/jokob-sk/NetAlertX",
+    composeContent: `services:
+  netalertx:
+    image: ghcr.io/jokob-sk/netalertx:latest
+    container_name: \${CONTAINER_PREFIX}netalertx
+    network_mode: "host"
+    environment:
+      - TZ=\${TZ}
+      - PORT=20211
+    volumes:
+      - \${CONFIG_PATH}/netalertx:/app/config
+      - \${DATA_PATH}/netalertx/db:/app/db
+      - \${DATA_PATH}/netalertx/logs:/app/log
+      - /tmp/api:/app/api
+    restart: \${RESTART_POLICY}`,
+  },
 ]
